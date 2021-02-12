@@ -1,4 +1,3 @@
-
 const Game = new Phaser.Game(1800, 1100, Phaser.AUTO, 'game-canvas', { preload, create , update})
 
 function preload() {
@@ -40,7 +39,7 @@ function create() {
     platform.body.collideWorldBounds = true;
     platform.body.bounce.set(0.3);
     platform.body.gravity.set(0, 300);
-    platform2.animations.add("f", [0,1,2,3], 15, true)
+    platform.animations.add("f", [0,1,2,3], 15, true)
     platform2.body.collideWorldBounds = true;
     platform2.body.bounce.set(0.3);
     platform2.body.gravity.set(0, 300);
@@ -89,6 +88,7 @@ function update(){
     {
         platform.body.velocity.y = -350;
         platform.animations.play("f")
+        console.log("Push")
     }else if(!(Game.input.keyboard.isDown(Phaser.KeyCode.S))){
         platform.animations.stop()
     }
@@ -96,6 +96,7 @@ function update(){
     {
         platform.body.velocity.y = 350;
         platform.animations.play("f")
+        console.log("Push")
     }else if(!(Game.input.keyboard.isDown(Phaser.KeyCode.W))){
         platform.animations.stop()
     }
@@ -118,4 +119,3 @@ function update(){
     }
 
 }
-
