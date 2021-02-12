@@ -4,7 +4,8 @@ function preload() {
 Game.load.spritesheet("d", "dude-org.288x40.9x1.png", 288/9, 48)
 Game.load.spritesheet("m", "dude-red.288x40.9x1.png", 288/9, 40)
 Game.load.spritesheet("ball", "ball.512x512.4x4.png", 512/4, 512/4)
-    Game.load.image('bg', "space2.png")
+Game.load.image('bg', "space2.png")
+Game.load.audio("Space", "INFINITY - Epic Futuristic Music Mix Atmospheric Sci-Fi Music.mp3")
 }
 let platform
 let platform2
@@ -18,7 +19,12 @@ let textWIN1
 let ballyV
 let platformwidth = 60
 let num = Game.rnd.integerInRange(0, 1)
+let bgmusic
 function create() {
+    bgmusic = Game.add.audio("Space")
+    bgmusic.onDecoded.add(start, this)
+
+
     bg = Game.add.sprite(0, 0, 'bg')
     textS = Game.add.text(Game.width-Game.width/8, 120, "Red Team\nScore: 0", { font: "65px Arial", fill: "#fff"})
     textS0 = Game.add.text(Game.width/8, 120, "Beige Team\nScore: 0", { font: "65px Arial", fill: "#fff"})
@@ -129,5 +135,18 @@ textWIN0.anchor.setTo(0.5)
     textWIN1 = Game.add.text(Game.width/2, Game.height/2,"Beige Team\n    WINS",{font:"65px Arial",fill:"rgb(225,198,153)"})
 textWIN1.anchor.setTo(0.5) 
    }
+
+}
+   if(score0==1){
+    textWIN0 = Game.add.text(Game.width/2, Game.height/2,"Red Team\n    WINS",{font:"65px Arial",fill:"rgb(220,20,60)"})
+textWIN0.anchor.setTo(0.5)
+   }
+   if(score1==1){
+    textWIN1 = Game.add.text(Game.width/2, Game.height/2,"Beige Team\n    WINS",{font:"65px Arial",fill:"rgb(225,198,153)"})
+textWIN1.anchor.setTo(0.5) 
+   }
+function start() {
+
+    bgmusic.fadeIn(4000);
 
 }
