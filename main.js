@@ -5,6 +5,7 @@ function preload() {
 Game.load.spritesheet("d", "dude-org.288x40.9x1.png", 288/9, 48)
 Game.load.spritesheet("m", "dude-red.288x40.9x1.png", 288/9, 40)
 Game.load.spritesheet("ball", "ball.512x512.4x4.png", 512/4, 512/4)
+    Game.load.image('bg', "space2.png")
 }
 let platform
 let platform2
@@ -17,6 +18,7 @@ let ballyV
 let platformwidth = 60
 let num = Game.rnd.integerInRange(0, 1)
 function create() {
+    bg = Game.add.sprite(0, 0, 'bg')
     textS = Game.add.text(Game.width-Game.width/8, 120, "Red Team\nScore: 0", { font: "65px Arial", fill: "#fff"})
     textS0 = Game.add.text(Game.width/8, 120, "Beige Team\nScore: 0", { font: "65px Arial", fill: "#fff"})
     textS.anchor.setTo(0.5)
