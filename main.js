@@ -129,14 +129,25 @@ function update(){
     }
    if(score0==10){
     textWIN0 = Game.add.text(Game.width/2, Game.height/2,"Red Team\n    WINS",{font:"65px Arial",fill:"rgb(220,20,60)"})
-textWIN0.anchor.setTo(0.5)
+        textWIN0.anchor.setTo(0.5)
+        ball.x = Game.width/2
+        ball.y = Game.height/2
+        platform.y = Game.height/2
+        platform2.y = Game.height/2
+        ball.body.velocity.x = 0
    }
    if(score1==10){
     textWIN1 = Game.add.text(Game.width/2, Game.height/2,"Beige Team\n    WINS",{font:"65px Arial",fill:"rgb(225,198,153)"})
-textWIN1.anchor.setTo(0.5) 
+        textWIN1.anchor.setTo(0.5) 
+        ball.x = Game.width/2
+        ball.y = Game.height/2
+        platform.y = Game.height/2
+        platform2.y = Game.height/2
+        ball.body.velocity.x = 0
    }
 
 }
+
 function start() {
 
     bgmusic.fadeIn(4000);
