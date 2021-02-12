@@ -1,3 +1,4 @@
+
 const Game = new Phaser.Game(1800, 1100, Phaser.AUTO, 'game-canvas', { preload, create , update})
 
 function preload() {
@@ -9,6 +10,7 @@ Game.load.spritesheet("ball", "ball.512x512.4x4.png", 512/4, 512/4)
 let platform
 let platform2
 let ball
+let ballMirror
 let score0 = 0
 let score1 = 0
 let textS
@@ -22,6 +24,10 @@ function create() {
     textS0 = Game.add.text(Game.width/8, 120, "Beige Team\nScore: 0", { font: "65px Arial", fill: "#fff"})
     textS.anchor.setTo(0.5)
     textS0.anchor.setTo(0.5)
+    ballMirror = Game.add.sprite(Game.width/2, Game.height/2, "ball")
+    ballMirror.anchor.setTo(0.5)
+    ballMirror.animations.add("ball", [], 15, true);
+    ballMirror.animations.play("ball")
     ball = Game.add.sprite(Game.width/2, Game.height/2, "ball")
     ball.anchor.setTo(0.5)
     ball.animations.add("ball", [], 15, true);
@@ -33,7 +39,7 @@ function create() {
     platform2.scale.setTo(3, 3)
     platform2.anchor.setTo(0.5)
     Game.physics.startSystem(Phaser.Physics.ARCADE);
-    Game.physics.enable([platform2, platform,ball], Phaser.Physics.ARCADE);
+    Game.physics.enable([platform2, platform, ball, ballMirror], Phaser.Physics.ARCADE);
     ball.body.bounce.set(1);
     ball.body.collideWorldBounds = true;
     platform.body.collideWorldBounds = true;
@@ -46,29 +52,39 @@ function create() {
     platform2.animations.add("m", [0,1,2,3], 15, true)
     platform.body.immovable = true;
     platform2.body.immovable = true;
+    ballMirror.body.bounce.set(1);
+    ballMirror.body.collideWorldBounds = true;
 }
 let count = 1
 let dead = 0
 function update(){
     Game.physics.arcade.collide(ball, platform);
     Game.physics.arcade.collide(ball, platform2);
+    Game.physics.arcade.collide(ballMirror, platform);
+    Game.physics.arcade.collide(ballMirror, platform2);
     textS.text = "Red Team\nScore: " + score0
     textS0.text = "Beige Team\nScore: " + score1
-    if(ball.x < 512/8+1){
+    if(ball.x < 512/8+1 || ballMirror.x < 512/8+1){
         score0++
         ball.x = Game.width/2
+        ballMirror.x = Game.width/2
         ball.y = Game.height/2
+        ballMirror.y = Game.height/2
         platform.y = Game.height/2
         platform2.y = Game.height/2
         ball.body.velocity.x = 0
+        ballMirror.body.velocity.x = 0
         dead = 1
-    }else if(ball.x > Game.width - 512/8-1){
+    }else if(ball.x > Game.width - 512/8-1 || ballMirror.x > Game.width - 512/8-1){
         score1++
         ball.x = Game.width/2
+        ballMirror.x = Game.width/2
         ball.y = Game.height/2
+        ballMirror.y = Game.height/2
         platform.y = Game.height/2
         platform2.y = Game.height/2
         ball.body.velocity.x = 0
+        ballMirror.body.velocity.x = 0
         dead = 1
     }
     if(!(count%400) && dead == 1){
@@ -78,9 +94,11 @@ function update(){
     count++
     if(num > 0.5){
         ball.body.velocity.x = 500
+        ballMirror.body.velocity.x = -500
         num = 0.5
     }else if(num < 0.5){
         ball.body.velocity.x = -500
+        ballMirror.body.velocity.x = 500
         num = 0.5
     }
 
