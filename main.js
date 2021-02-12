@@ -127,24 +127,16 @@ function update(){
     }else if(!(Game.input.keyboard.isDown(Phaser.KeyCode.UP))){
         platform2.animations.stop()
     }
-   if(score0==1){
+   if(score0==10){
     textWIN0 = Game.add.text(Game.width/2, Game.height/2,"Red Team\n    WINS",{font:"65px Arial",fill:"rgb(220,20,60)"})
 textWIN0.anchor.setTo(0.5)
    }
-   if(score1==1){
+   if(score1==10){
     textWIN1 = Game.add.text(Game.width/2, Game.height/2,"Beige Team\n    WINS",{font:"65px Arial",fill:"rgb(225,198,153)"})
 textWIN1.anchor.setTo(0.5) 
    }
 
 }
-   if(score0==1){
-    textWIN0 = Game.add.text(Game.width/2, Game.height/2,"Red Team\n    WINS",{font:"65px Arial",fill:"rgb(220,20,60)"})
-textWIN0.anchor.setTo(0.5)
-   }
-   if(score1==1){
-    textWIN1 = Game.add.text(Game.width/2, Game.height/2,"Beige Team\n    WINS",{font:"65px Arial",fill:"rgb(225,198,153)"})
-textWIN1.anchor.setTo(0.5) 
-   }
 function start() {
 
     bgmusic.fadeIn(4000);
