@@ -311,4 +311,12 @@ function start() {
 
     bgmusic.fadeIn(4000);
 
+function onStartLeft(){
+    ball.body.velocity.x = -700
+    num = 0.5
+}
+function onStartRight(){
+    ball.body.velocity.x = 700
+    num = 0.5
+
 }
