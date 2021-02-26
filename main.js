@@ -11,13 +11,13 @@ Game.load.audio("Hit", "HIT.mp3");
 let platform
 let platform2
 let ball
+let ball0
 let score0 = 0
 let score1 = 0
 let textS
 let textS0
 let textWIN0
 let textWIN1
-let ballyV
 let platformwidth = 60
 let num = 0.5
 let bgmusic
@@ -25,7 +25,7 @@ function create() {
     bgmusic = Game.add.audio("Space")
     bgmusic.volume = 0.1
     //console.log(bgmusic.volume)
-    bgmusic.onDecoded.add(start, this)
+    bgmusic.play();
 
     hitsound = Game.add.audio("Hit");
     
@@ -40,6 +40,10 @@ function create() {
     ball.anchor.setTo(0.5)
     ball.animations.add("ball", [], 15, true);
     ball.animations.play("ball")
+    ball0 = Game.add.sprite(Game.width/2, Game.height/2, "ball")
+    ball0.anchor.setTo(0.5)
+    ball0.animations.add("ball", [], 15, true);
+    ball0.animations.play("ball")
     
     platform = Game.add.sprite(288/5, 120, "d")
     platform.scale.setTo(-3, 3)
@@ -50,10 +54,12 @@ function create() {
     platform2.anchor.setTo(0.5)
     
     Game.physics.startSystem(Phaser.Physics.ARCADE);
-    Game.physics.enable([platform2, platform,ball], Phaser.Physics.ARCADE);
+    Game.physics.enable([platform2, platform,ball, ball0], Phaser.Physics.ARCADE);
     
     ball.body.bounce.set(1);
     ball.body.collideWorldBounds = true;
+    ball0.body.bounce.set(1);
+    ball0.body.collideWorldBounds = true;
     
     platform.body.collideWorldBounds = true;
     platform.body.bounce.set(0.3);
@@ -77,11 +83,14 @@ function update(){
     
     Game.physics.arcade.collide(ball, platform, onHit);
     Game.physics.arcade.collide(ball, platform2, onHit);
+    Game.physics.arcade.collide(ball0, platform, onHit);
+    Game.physics.arcade.collide(ball0, platform2, onHit);
+
     textS.text = "Red Team\nScore: " + score0
     textS0.text = "Beige Team\nScore: " + score1
-    if(ball.x < 512/8+1){
+    if(ball.x < 512/8+1 || ball0.x < 512/8+1){
         SCORERED();
-    }else if(ball.x > Game.width - 512/8-1){
+    }else if(ball.x > Game.width - 512/8-1 || ball0.x > Game.width - 512/8-1){
         SCOREBAGE();
     }
     if(!(count%400) && dead == 1){
@@ -107,7 +116,6 @@ function update(){
     {
         platform.body.velocity.y = 550;
         platform.animations.play("f")
-        console.log("Push")
     }else if(!(Game.input.keyboard.isDown(Phaser.KeyCode.W))){
         platform.animations.stop()
     }
@@ -133,24 +141,35 @@ function update(){
         textWIN0.anchor.setTo(0.5)
         ball.x = Game.width/2
         ball.y = Game.height/2
+        ball0.x = Game.width/2
+        ball0.y = Game.height/2
         platform.y = Game.height/2
         platform2.y = Game.height/2
         ball.body.velocity.x = 0
+        ball.body.velocity.y = 0
+        ball0.body.velocity.x = 0
+        ball0.body.velocity.y = 0
    }
    if(score1==10){
     textWIN1 = Game.add.text(Game.width/2, Game.height/2,"Beige Team\n    WINS",{font:"65px Arial",fill:"rgb(225,198,153)"})
         textWIN1.anchor.setTo(0.5) 
         ball.x = Game.width/2
         ball.y = Game.height/2
+        ball0.x = Game.width/2
+        ball0.y = Game.height/2
         platform.y = Game.height/2
         platform2.y = Game.height/2
         ball.body.velocity.x = 0
+        ball.body.velocity.y = 0
+        ball0.body.velocity.x = 0
+        ball0.body.velocity.y = 0
    }
    bgmusic.volume = 0.1
 
 }
 function onHit(){
     ball.body.velocity.y = Game.rnd.integerInRange(-500, 500);
+    ball0.body.velocity.y = Game.rnd.integerInRange(-500, 500);
     hitsound.play();
 }
 function start() {
@@ -167,28 +186,38 @@ function SCOREBAGE(){
     score1++
     ball.x = Game.width/2
     ball.y = Game.height/2
+    ball0.x = Game.width/2
+    ball0.y = Game.height/2
     platform.y = Game.height/2
     platform2.y = Game.height/2
     ball.body.velocity.x = 0
     ball.body.velocity.y = 0
+    ball0.body.velocity.x = 0
+    ball0.body.velocity.y = 0
     dead = 1
 }
 function SCORERED(){
     score0++
     ball.x = Game.width/2
     ball.y = Game.height/2
+    ball0.x = Game.width/2
+    ball0.y = Game.height/2
     platform.y = Game.height/2
     platform2.y = Game.height/2
     ball.body.velocity.x = 0
     ball.body.velocity.y = 0
+    ball0.body.velocity.x = 0
+    ball0.body.velocity.y = 0
     dead = 1
 }
 
 function onStartLeft(){
     ball.body.velocity.x = -700
+    ball0.body.velocity.x = 700
     num = 0.5
 }
 function onStartRight(){
     ball.body.velocity.x = 700
+    ball0.body.velocity.x = -700
     num = 0.5
 }
